@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#062540" />
+    <title>해양이 · 부산 바다 건강검진</title>
+    <meta name="description" content="부산 5개 해수욕장의 오늘 바다 건강을 한눈에 확인하세요." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,700;0,800;1,700&display=swap" rel="stylesheet" />
+    <style>:root{--ink:#062540;--blue:#0a5e8f;--sky:#dff7fb;--foam:#f6ffff;--coral:#ff7f69;--line:rgba(6,37,64,.11)}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:#edfafd;color:var(--ink);font-family:"Noto Sans KR",sans-serif;letter-spacing:-.035em}.shell{max-width:710px;margin:auto;min-height:100vh;background:var(--foam);box-shadow:0 0 60px rgba(0,72,106,.09)}.topbar{display:flex;align-items:center;justify-content:space-between;padding:25px 30px}.brand{display:flex;gap:9px;align-items:center;color:var(--ink);font-size:19px;font-weight:800;text-decoration:none}.brand-mark{display:grid;width:30px;height:30px;place-items:center;border-radius:50%;background:var(--ink);color:#abf5f5;font-size:20px;line-height:1}.live-state{display:flex;gap:7px;align-items:center;color:#547084;font-size:12px;font-weight:600}.pulse{width:7px;height:7px;border-radius:50%;background:#43ba9f;box-shadow:0 0 0 4px rgba(67,186,159,.15)}.hero{position:relative;overflow:hidden;min-height:319px;padding:42px 30px 0;color:white;background:linear-gradient(135deg,#07406d,#087da3 58%,#72d3d6)}.hero:before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 84% 20%,rgba(255,255,255,.35),transparent 16%),radial-gradient(circle at 13% 90%,rgba(10,24,70,.3),transparent 42%)}.eyebrow{margin:0 0 8px;color:#4e8ba1;font-size:11px;font-weight:800;letter-spacing:.12em}.hero .eyebrow{color:#bae8ec}.hero h1{position:relative;margin:0;font-size:50px;line-height:1.13;letter-spacing:-.08em;font-weight:800}.hero em{font-family:"Playfair Display",serif;font-weight:700;letter-spacing:-.06em}.hero-copy{position:relative;margin:20px 0;font-size:15px;line-height:1.75;color:#dbfbfc}.hero-water{position:absolute;bottom:-17px;left:-8%;width:120%;height:80px;transform:rotate(-3deg)}.hero-water i{position:absolute;display:block;width:130%;height:42px;border-radius:50%;border-top:2px solid rgba(255,255,255,.47)}.hero-water i:nth-child(2){top:20px;left:-20%;opacity:.58}.hero-water i:nth-child(3){top:39px;left:-7%;opacity:.35}.beach-picker{padding:26px 30px 22px;border-bottom:1px solid var(--line)}.section-label{margin:0 0 13px;color:#5f7e8f;font-weight:700;font-size:13px}.beach-list{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}.beach-list::-webkit-scrollbar{display:none}.beach{flex:0 0 auto;border:1px solid #cae6eb;border-radius:999px;padding:10px 14px;background:white;color:#487081;font:600 13px "Noto Sans KR";cursor:pointer;transition:.2s}.beach:hover,.beach:focus-visible{border-color:#38a7bf;color:var(--blue)}.beach.active{border-color:var(--ink);background:var(--ink);color:white}.report{padding:35px 30px 30px}.report-heading{display:flex;justify-content:space-between;align-items:flex-start}.report h2{font-size:30px;margin:0 0 3px;letter-spacing:-.07em}.muted{margin:0;color:#78909d;font-size:12px}.icon-button{display:grid;place-items:center;width:38px;height:38px;border:1px solid #c8e4ea;border-radius:50%;background:white;color:var(--ink);font-size:22px;cursor:pointer}.icon-button.loading{animation:spin .75s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}.score-card{display:flex;align-items:center;justify-content:space-between;margin:25px 0 20px;padding:25px 23px;background:linear-gradient(115deg,#e3fafb,#c8f3f4);border-radius:22px}.score-copy>p{margin:0 0 6px;font-size:14px;font-weight:700;color:#477b88}.score-row{display:flex;align-items:baseline;gap:4px}.score-row strong{font-family:"Playfair Display",serif;font-size:60px;line-height:.9;letter-spacing:-.07em}.score-row span{color:#668993;font-size:14px}.grade{display:inline-block;margin-top:10px;border-radius:999px;padding:5px 10px;background:var(--ink);color:white;font-size:12px;font-weight:700}.gauge{--score:50;width:127px;height:127px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(var(--blue) calc(var(--score)*1%),rgba(8,101,139,.14) 0);position:relative}.gauge:before{content:"";position:absolute;width:103px;height:103px;border-radius:50%;background:#e4fafb}.gauge span{position:relative;text-align:center;color:#477a86;font-size:10px;font-weight:800;letter-spacing:.08em;line-height:1.4}.metrics{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.metric{padding:16px 14px;border:1px solid #d7ebee;border-radius:16px;background:#fff}.metric .metric-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}.metric .metric-icon{font-size:20px}.metric .metric-label{color:#698694;font-size:12px;font-weight:700}.metric strong{font-size:21px;letter-spacing:-.06em}.metric small{font-size:11px;color:#7e99a3;margin-left:2px}.metric .sub{font-size:11px;color:#6e9095;margin-top:3px}.diagnosis{display:flex;gap:15px;margin-top:22px;padding:22px 18px;background:#062e49;border-radius:19px;color:#f4ffff}.diagnosis-icon{flex:0 0 34px;display:grid;place-items:center;width:34px;height:34px;border-radius:12px;background:#ff9c85;color:#092d4b;font-size:19px}.diagnosis .eyebrow{color:#81cbd1;margin-bottom:4px}.diagnosis h3{margin:0 0 7px;font-size:16px}.diagnosis p:last-child{margin:0;color:#d1eef0;font-size:13px;line-height:1.75}.formula{margin:0 30px;padding:24px 0 30px;border-top:1px solid var(--line)}.formula-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}.formula-grid span{padding:11px 7px;border-radius:11px;background:#edf8fa;text-align:center;color:#567a88;font-size:11px;font-weight:600}.formula-grid b{display:block;margin-top:3px;color:var(--blue);font-size:14px}.formula>p:last-child{color:#748e99;font-size:11px;line-height:1.65}.api-panel{margin:0 30px 32px;border:1px solid #cfe7eb;border-radius:15px;background:white}.api-panel summary{padding:15px 16px;color:#326276;font-size:13px;font-weight:700;cursor:pointer;list-style:none;display:flex;justify-content:space-between}.api-panel[open] summary{border-bottom:1px solid #e2eff1}.api-content{padding:16px}.api-content p{margin:0 0 13px;color:#6e8995;font-size:11px;line-height:1.65}.api-content label{display:block;margin-bottom:6px;color:#527382;font-size:11px;font-weight:700}.key-row{display:flex;gap:7px}.key-row input{width:100%;min-width:0;border:1px solid #cce3e8;border-radius:9px;padding:10px;font:12px "Noto Sans KR";outline:none}.key-row input:focus{border-color:var(--blue)}.key-row button{border:0;border-radius:9px;padding:0 14px;background:var(--ink);color:#fff;font-weight:700;cursor:pointer}.text-button{margin-top:12px;padding:0;border:0;background:none;color:#287c97;font:600 12px "Noto Sans KR";text-decoration:underline;cursor:pointer}footer{padding:22px 15px 35px;background:#edfafd;color:#6e929f;text-align:center;font-size:11px}@media(max-width:460px){.topbar,.hero,.beach-picker,.report{padding-left:20px;padding-right:20px}.hero h1{font-size:43px}.formula,.api-panel{margin-left:20px;margin-right:20px}.score-card{padding:22px 16px}.gauge{width:112px;height:112px}.gauge:before{width:90px;height:90px}.score-row strong{font-size:53px}}
+
+.community{padding:34px 30px 42px;background:#eaf8fa}.community-heading{display:flex;justify-content:space-between;align-items:center}.community h2{margin:0;font-size:26px;letter-spacing:-.07em}.community-intro{margin:8px 0 17px;color:#6b8a96;font-size:13px}.post-button,.submit-post{border:0;border-radius:10px;background:#0a6189;color:#fff;padding:10px 12px;font:700 12px "Noto Sans KR";cursor:pointer}.feed{display:grid;gap:12px}.feed-message{margin:5px 0;color:#698693;font-size:13px;text-align:center}.post-card{overflow:hidden;border:1px solid #d4e9ed;border-radius:16px;background:#fff;cursor:pointer}.post-card img{display:block;width:100%;height:185px;object-fit:cover;background:#bddce1}.post-body{padding:13px 14px}.post-meta{display:flex;justify-content:space-between;gap:9px;color:#5f8594;font-size:11px}.post-card h3{margin:5px 0 4px;font-size:17px;letter-spacing:-.05em}.post-card p{margin:0;color:#6b8591;font-size:12px;line-height:1.55}.modal{width:min(560px,calc(100vw - 28px));border:0;border-radius:18px;padding:0;background:#f8ffff;color:#062540;box-shadow:0 18px 65px #06254055}.modal::backdrop{background:#06254099}.modal form,.detail-wrap{padding:22px}.modal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}.modal h2{margin:0;font-size:22px;letter-spacing:-.06em}.close{border:0;background:none;font-size:29px;color:#496d7a;cursor:pointer}.modal label{display:grid;gap:6px;margin:12px 0;color:#416c7c;font-size:12px;font-weight:700}.modal input,.modal textarea,.modal select{width:100%;border:1px solid #cee6ea;border-radius:9px;padding:10px;background:#fff;font:13px "Noto Sans KR"}.modal textarea{height:83px;resize:vertical}.submit-post{width:100%;margin-top:5px;padding:13px;font-size:14px}.form-error{min-height:16px;margin:10px 0 0;color:#d55454;font-size:12px}.detail-image{width:100%;max-height:60vh;object-fit:contain;background:#eaf4f5}.detail-info{padding:16px 0;border-bottom:1px solid #d5e9ec}.detail-info h2{margin:5px 0}.detail-info p{margin:5px 0;color:#62818d;font-size:13px;line-height:1.6}.comment-list{padding:15px 0}.comment{padding:10px 0;border-bottom:1px solid #e3eff1}.comment small{color:#6d909b;font-size:11px}.comment p{margin:4px 0 0;font-size:13px}.comment-form{display:flex;gap:7px}.comment-form input{flex:1}.comment-form button{border:0;border-radius:9px;background:#0a6189;color:#fff;padding:0 13px;font:700 12px "Noto Sans KR"}.toast{position:fixed;z-index:5;bottom:22px;left:50%;transform:translate(-50%,15px);opacity:0;transition:.2s;background:#092f49;color:#fff;border-radius:99px;padding:11px 16px;font-size:12px;pointer-events:none}.toast.show{opacity:1;transform:translate(-50%,0)}@media(max-width:460px){.community{padding-left:20px;padding-right:20px}.post-button{padding:9px}.modal form,.detail-wrap{padding:18px}}
+
+.api-guide{margin:0 30px 32px;padding:19px;border:1px solid #cfe7eb;border-radius:16px;background:#f0fbfc}.api-guide-title{display:flex;gap:11px;align-items:center}.guide-badge{display:grid;place-items:center;width:42px;height:42px;border-radius:13px;background:#0a6189;color:#fff;font-size:12px;font-weight:800}.api-guide h3{margin:0;font-size:15px;letter-spacing:-.05em}.api-guide .eyebrow{margin-bottom:3px}.api-guide>p{margin:13px 0;color:#5c7e8b;font-size:12px;line-height:1.65}.field-chips{display:flex;flex-wrap:wrap;gap:6px}.field-chips span{border:1px solid #c8e5e9;border-radius:999px;padding:5px 8px;background:white;color:#427588;font-size:10px;font-weight:700}@media(max-width:460px){.api-guide{margin-left:20px;margin-right:20px}}
+</style>
+  </head>
+  <body>
+    <main class="shell">
+      <header class="topbar">
+        <a class="brand" href="#top" aria-label="해양이 홈"><span class="brand-mark">〰</span><span>해양이</span></a>
+        <div class="live-state"><span class="pulse"></span><span id="source-label">데모 데이터</span></div>
+      </header>
+
+      <section class="hero" id="top">
+        <p class="eyebrow">BUSAN SEA HEALTH CHECK</p>
+        <h1>오늘, 바다는<br /><em>건강한가요?</em></h1>
+        <p class="hero-copy">파도부터 수온까지. 부산의 바다 컨디션을<br />해양이의 한 장 진단으로 만나보세요.</p>
+        <div class="hero-water" aria-hidden="true"><i></i><i></i><i></i></div>
+      </section>
+
+      <section class="beach-picker" aria-label="해수욕장 선택">
+        <p class="section-label">어느 바다를 살펴볼까요?</p>
+        <div class="beach-list" id="beach-list"></div>
+      </section>
+
+      <section class="report" aria-live="polite">
+        <div class="report-heading">
+          <div><p class="eyebrow" id="report-date">TODAY'S REPORT</p><h2 id="beach-name">광안리</h2><p id="observed-at" class="muted">데모 측정값 · 지금</p></div>
+          <button class="icon-button" id="refresh-button" type="button" aria-label="데이터 새로고침">↻</button>
+        </div>
+
+        <div class="score-card">
+          <div class="score-copy"><p>바다 건강점수</p><div class="score-row"><strong id="score">89</strong><span>/ 100</span></div><span class="grade" id="grade">아주 좋아요</span></div>
+          <div class="gauge" id="gauge" style="--score: 89"><span>HEALTH<br />SCORE</span></div>
+        </div>
+
+        <div class="metrics" id="metrics"></div>
+
+        <article class="diagnosis">
+          <div class="diagnosis-icon">✦</div>
+          <div><p class="eyebrow">AI OCEAN NOTE</p><h3>해양이의 종합 진단</h3><p id="diagnosis-text"></p></div>
+        </article>
+      </section>
+
+      <section class="formula">
+        <p class="section-label">점수는 이렇게 계산해요</p>
+        <div class="formula-grid"><span>해수욕 점수 <b>55%</b></span><span>파고 안정성 <b>25%</b></span><span>수온 쾌적도 <b>20%</b></span></div>
+        <p>공공데이터포털 국립해양조사원 해수욕지수의 해수욕점수, 파고, 수온을 바탕으로 해양이가 산정합니다.</p>
+      </section>
+
+      <section class="api-guide">
+        <div class="api-guide-title"><span class="guide-badge">5단계</span><div><p class="eyebrow">NORI BEACH INDEX</p><h3>국립해양조사원 해수욕지수</h3></div></div>
+        <p>전국 주요 해수욕장의 파고·수온·바람·기온을 종합해 해변 컨디션을 지수화한 공공 데이터예요.</p>
+        <div class="field-chips"><span>해수욕장</span><span>분석 날짜·시간</span><span>최고파고</span><span>수온</span><span>기온</span><span>풍속</span><span>해수욕지수</span><span>해수욕점수</span></div>
+      </section>
+
+      <details class="api-panel">
+        <summary>실시간 데이터 연결하기 <span>⌄</span></summary>
+        <div class="api-content">
+          <p>공공데이터포털에서 발급한 서비스키를 이 기기에만 저장합니다. 키 없이도 데모 모드를 사용할 수 있어요.</p>
+          <label for="api-key">공공데이터포털 서비스키</label>
+          <div class="key-row"><input id="api-key" type="password" placeholder="서비스키를 붙여넣으세요" autocomplete="off" /><button id="save-key" type="button">연결</button></div>
+          <button class="text-button" id="demo-button" type="button">데모 데이터로 전환</button>
+        </div>
+      </details>
+      <section class="community" id="community">
+        <div class="community-heading"><div><p class="eyebrow">BUSAN SEA COMMUNITY</p><h2>오늘의 바다 기록</h2></div><button class="post-button" id="open-post" type="button">+ 사진 올리기</button></div>
+        <p class="community-intro">부산 바다에서 만난 순간을 익명으로 나눠보세요.</p><div class="feed" id="feed"><p class="feed-message">바다 기록을 불러오는 중이에요.</p></div>
+      </section>
+    </main>
+    <dialog id="post-dialog" class="modal"><form id="post-form"><div class="modal-head"><h2>바다 기록 올리기</h2><button class="close" type="button" data-close="post-dialog">×</button></div><label>사진<input name="photo" type="file" accept="image/*" required /></label><label>제목<input name="title" maxlength="80" required /></label><label>짧은 설명<textarea name="description" maxlength="400" required></textarea></label><label>촬영 장소<select name="location" required><option>광안리</option><option>해운대</option><option>송정</option><option>송도</option><option>다대포</option><option>기타 부산 바다</option></select></label><button class="submit-post" type="submit">익명으로 공유하기</button><p class="form-error" id="post-error"></p></form></dialog>
+    <dialog id="detail-dialog" class="modal"><div id="detail-content"></div></dialog><div class="toast" id="toast" role="status"></div>
+    <footer>해양이 · 부산의 바다를 더 안심하고 즐기기 위한 오늘의 기록</footer>
+    <script>const beaches = [
+  { name: '광안리', apiNames: ['광안리'], demo: { temp: 24.2, wave: .38, wind: 3.2, air: 27.1, raw: 88, index: '좋음' } },
+  { name: '해운대', apiNames: ['해운대'], demo: { temp: 23.8, wave: .52, wind: 4.1, air: 26.4, raw: 82, index: '좋음' } },
+  { name: '송정', apiNames: ['송정'], demo: { temp: 24.5, wave: .31, wind: 2.7, air: 27.8, raw: 93, index: '매우 좋음' } },
+  { name: '송도', apiNames: ['송도'], demo: { temp: 23.4, wave: .64, wind: 4.8, air: 25.9, raw: 77, index: '보통' } },
+  { name: '다대포', apiNames: ['다대포'], demo: { temp: 24.0, wave: .44, wind: 3.6, air: 26.7, raw: 85, index: '좋음' } }
+];
+
+let selected = 0;
+let currentSource = 'demo';
+const $ = (sel) => document.querySelector(sel);
+
+function n(v) { const x = Number.parseFloat(v); return Number.isFinite(x) ? x : null; }
+function pick(obj, keys) { for (const k of keys) { const value = obj?.[k]; const parsed = n(value); if (parsed !== null) return parsed; } return null; }
+function apiItems(payload) {
+  const body = payload?.response?.body || payload?.body || payload?.GetFcstBeachApiServicev2Response?.body || {};
+  const items = body?.items?.item ?? body?.items ?? body?.item ?? [];
+  return Array.isArray(items) ? items : [items];
+}
+function normalize(item) {
+  return {
+    temp: pick(item, ['waterTemp', 'watTemp', 'tw', 'waterTemperature']) ?? 23,
+    wave: pick(item, ['waveHeight', 'wh', 'maxWaveHeight', 'waveH']) ?? .5,
+    wind: pick(item, ['windSpeed', 'ws', 'wind']) ?? 3,
+    air: pick(item, ['airTemp', 'ta', 'airTemperature']) ?? 25,
+    raw: pick(item, ['beachScore', 'score', 'beachSc']) ?? 75,
+    index: String(item.beachIndex ?? item.index ?? '현황 제공'),
+    observed: item.tm ?? item.time ?? item.baseDate ?? item.date ?? '실시간 API'
+  };
+}
+function health(d) {
+  const raw = Math.max(0, Math.min(100, d.raw));
+  const wave = Math.max(0, 100 - Math.max(0, d.wave - .15) * 33);
+  const temp = Math.max(0, 100 - Math.abs(d.temp - 24) * 13);
+  return Math.round(raw * .55 + wave * .25 + temp * .20);
+}
+function grade(score) { return score >= 86 ? '아주 좋아요' : score >= 72 ? '좋아요' : score >= 55 ? '보통이에요' : '주의가 필요해요'; }
+function diagnosis(d, score) {
+  const beach = beaches[selected].name;
+  if (score >= 86) return `${beach} 바다는 전반적으로 매우 안정적이에요. ${d.temp.toFixed(1)}°C의 쾌적한 수온과 낮은 파고가 확인됐습니다. 가벼운 물놀이와 산책 모두 좋은 시간이에요.`;
+  if (score >= 72) return `${beach} 바다는 대체로 좋은 컨디션이에요. 파도 변화를 가볍게 확인하면서 해변 활동을 즐겨보세요.`;
+  if (score >= 55) return `${beach} 바다는 무난하지만 파고와 바람이 평소보다 느껴질 수 있어요. 물가에서는 안전수칙을 더 꼼꼼히 챙겨주세요.`;
+  return `${beach} 바다는 오늘 신중한 접근이 필요해요. 해변 산책을 중심으로 즐기고, 입수 전 현장 안전요원의 안내를 확인하세요.`;
+}
+function metric(icon, label, value, unit, sub) { return `<div class="metric"><div class="metric-top"><span class="metric-icon">${icon}</span><span class="metric-label">${label}</span></div><strong>${value}</strong><small>${unit}</small><div class="sub">${sub}</div></div>`; }
+function render(d, source) {
+  const score = health(d);
+  $('#beach-name').textContent = beaches[selected].name;
+  $('#report-date').textContent = source === 'live' ? 'LIVE OCEAN REPORT' : "TODAY'S DEMO REPORT";
+  $('#observed-at').textContent = source === 'live' ? `API 기준 · ${d.observed || '최신 응답'}` : '데모 측정값 · 지금';
+  $('#source-label').textContent = source === 'live' ? '실시간 연결됨' : '데모 데이터';
+  $('#score').textContent = score;
+  $('#grade').textContent = grade(score);
+  $('#gauge').style.setProperty('--score', score);
+  $('#metrics').innerHTML = [metric('♨', '해수 온도', d.temp.toFixed(1), '°C', '쾌적도 기준 24°C'), metric('〰', '최고 파고', d.wave.toFixed(2), 'm', d.wave < .6 ? '잔잔한 편이에요' : '파도에 유의하세요'), metric('↝', '풍속', d.wind.toFixed(1), 'm/s', d.wind < 5 ? '바람이 잔잔해요' : '강한 바람이 불어요'), metric('☀', '기온', d.air.toFixed(1), '°C', `해수욕지수 ${d.index}`)].join('');
+  $('#diagnosis-text').textContent = diagnosis(d, score);
+}
+function renderButtons() { $('#beach-list').innerHTML = beaches.map((b, i) => `<button class="beach ${i === selected ? 'active' : ''}" type="button" data-id="${i}">${b.name}</button>`).join(''); }
+async function fetchLive() {
+  const key = localStorage.getItem('haeyangi-api-key');
+  if (!key) return false;
+  const button = $('#refresh-button'); button.classList.add('loading');
+  try {
+    const base = 'https://apis.data.go.kr/1192136/fcstBeachv2/GetFcstBeachApiServicev2';
+    const qs = new URLSearchParams({ serviceKey: key, type: 'json', numOfRows: '300', pageNo: '1' });
+    const response = await fetch(`${base}?${qs}`);
+    if (!response.ok) throw new Error('API request failed');
+    const payload = await response.json();
+    const beach = beaches[selected];
+    const item = apiItems(payload).find(x => beach.apiNames.some(name => String(x.beachName ?? x.name ?? x.placeName ?? '').includes(name)));
+    if (!item) throw new Error('No matching beach');
+    currentSource = 'live'; render(normalize(item), 'live'); return true;
+  } catch (err) { currentSource = 'demo'; render(beaches[selected].demo, 'demo'); alert('실시간 데이터를 가져오지 못해 데모 데이터를 보여드려요. 서비스키와 API 활용 신청 상태를 확인해 주세요.'); return false; }
+  finally { button.classList.remove('loading'); }
+}
+async function update() { const hasKey = !!localStorage.getItem('haeyangi-api-key'); if (hasKey) await fetchLive(); else { currentSource='demo'; render(beaches[selected].demo, 'demo'); } }
+$('#beach-list').addEventListener('click', async (e) => { const id = e.target.dataset.id; if (id === undefined) return; selected = Number(id); renderButtons(); await update(); });
+$('#refresh-button').addEventListener('click', update);
+$('#save-key').addEventListener('click', async () => { const key = $('#api-key').value.trim(); if (!key) { alert('서비스키를 입력해 주세요.'); return; } localStorage.setItem('haeyangi-api-key', key); $('#api-key').value = ''; await update(); });
+$('#demo-button').addEventListener('click', () => { localStorage.removeItem('haeyangi-api-key'); currentSource='demo'; render(beaches[selected].demo, 'demo'); });
+renderButtons(); render(beaches[0].demo, 'demo');
+
+const esc = (s='') => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
+const ago = (t) => new Intl.DateTimeFormat('ko-KR',{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'}).format(new Date(t));
+function toast(message){ const el=$('#toast'); el.textContent=message; el.classList.add('show'); setTimeout(()=>el.classList.remove('show'),3200); }
+async function api(path, options){ const r=await fetch(path,options); const d=await r.json().catch(()=>({})); if(!r.ok) throw new Error(d.error||'요청 처리 중 오류가 발생했어요.'); return d; }
+async function loadFeed(){ try{const posts=await api('/api/posts'); $('#feed').innerHTML=posts.length?posts.map(p=>`<article class="post-card" data-post="${p.id}"><img src="${p.image_url}" alt="${esc(p.title)}"><div class="post-body"><div class="post-meta"><span>${esc(p.location)}</span><span>${ago(p.created_at)}</span></div><h3>${esc(p.title)}</h3><p>${esc(p.description)}</p></div></article>`).join(''):'<p class="feed-message">첫 번째 바다 기록을 남겨보세요.</p>'; }catch(e){$('#feed').innerHTML='<p class="feed-message">기록을 불러오지 못했어요. 잠시 후 다시 시도해 주세요.</p>';toast(e.message)} }
+$('#open-post').onclick=()=>$('#post-dialog').showModal(); document.querySelectorAll('[data-close]').forEach(b=>b.onclick=()=>$('#'+b.dataset.close).close());
+$('#post-form').addEventListener('submit',async e=>{e.preventDefault(); const form=e.currentTarget, fd=new FormData(form), err=$('#post-error'); err.textContent=''; const file=fd.get('photo'); if(!file?.size){err.textContent='사진을 선택해 주세요.';return} if(file.size>8*1024*1024){err.textContent='사진은 8MB 이하만 올릴 수 있어요.';return} try{const up=await api('/api/uploads',{method:'POST',body:file,headers:{'Content-Type':file.type}}); await api('/api/posts',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({title:fd.get('title'),description:fd.get('description'),location:fd.get('location'),imageUrl:up.url})}); form.reset();$('#post-dialog').close();toast('바다 기록을 공유했어요.');loadFeed()}catch(x){err.textContent=x.message}});
+$('#feed').addEventListener('click',async e=>{const card=e.target.closest('[data-post]');if(!card)return; try{const p=await api('/api/posts/'+card.dataset.post);$('#detail-content').innerHTML=`<div class="detail-wrap"><div class="modal-head"><h2>바다 기록</h2><button class="close" type="button" id="close-detail">×</button></div><img class="detail-image" src="${p.image_url}" alt="${esc(p.title)}"><div class="detail-info"><div class="post-meta"><span>${esc(p.location)}</span><span>${ago(p.created_at)}</span></div><h2>${esc(p.title)}</h2><p>${esc(p.description)}</p></div><div class="comment-list" id="comments">${p.comments.map(c=>`<div class="comment"><small>익명 · ${ago(c.created_at)}</small><p>${esc(c.content)}</p></div>`).join('')||'<p class="feed-message">첫 댓글을 남겨보세요.</p>'}</div><form class="comment-form" id="comment-form"><input maxlength="300" required placeholder="익명으로 댓글 쓰기"><button>등록</button></form></div>`; const d=$('#detail-dialog');d.showModal();$('#close-detail').onclick=()=>d.close();$('#comment-form').onsubmit=async ev=>{ev.preventDefault();const i=ev.currentTarget.querySelector('input');try{const c=await api('/api/posts/'+p.id+'/comments',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({content:i.value})});$('#comments').insertAdjacentHTML('beforeend',`<div class="comment"><small>익명 · ${ago(c.created_at)}</small><p>${esc(c.content)}</p></div>`);i.value='';toast('댓글을 남겼어요.')}catch(x){toast(x.message)}}}catch(x){toast(x.message)}});loadFeed();
+</script>
+  </body>
+</html>
