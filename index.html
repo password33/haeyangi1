@@ -303,7 +303,7 @@ const esc = (s='') => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;
 function storedPost(id){ return localCommunity().find(post=>post.id===id); }
 function saveStoredPost(post){ const posts=localCommunity(); const index=posts.findIndex(item=>item.id===post.id); if(index>=0){posts[index]=post;saveLocalCommunity(posts);} }
 function removeStoredPost(id){ saveLocalCommunity(localCommunity().filter(post=>post.id!==id)); }
-function readPhoto(file){ return new Promise((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>resolve(reader.result);reader.onerror=()=>reject(new Error('사진을 읽지 못했어요.'));reader.readAsDataURL(file);}); }
+function readPhoto(file){ return storePhoto(file); }
 function actionButton(label, kind=''){ const button=document.createElement('button');button.type='button';button.className=`manage-button ${kind}`;button.textContent=label;return button; }
 function attachPostControls(post){
   const info=$('.detail-info'); if(!info||$('#post-controls'))return;
@@ -320,15 +320,24 @@ function attachCommentControls(post){
 const ago = (t) => new Intl.DateTimeFormat('ko-KR',{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'}).format(new Date(t));
 function toast(message){ const el=$('#toast'); el.textContent=message; el.classList.add('show'); setTimeout(()=>el.classList.remove('show'),3200); }
 const localCommunityKey = 'haeyangi-local-community-v1';
-function localCommunity(){ try { return JSON.parse(localStorage.getItem(localCommunityKey)) || []; } catch { return []; } }
-function saveLocalCommunity(posts){ localStorage.setItem(localCommunityKey, JSON.stringify(posts)); }
+let journalPosts=[];
+const transientPhotoKeys=new Map();
+const journalDatabase=new Promise((resolve,reject)=>{const request=indexedDB.open('haeyangi-journal-v2',1);request.onupgradeneeded=()=>{const db=request.result;if(!db.objectStoreNames.contains('posts'))db.createObjectStore('posts',{keyPath:'id'});if(!db.objectStoreNames.contains('photos'))db.createObjectStore('photos');};request.onsuccess=()=>resolve(request.result);request.onerror=()=>reject(request.error);});
+async function journalStore(name,mode='readonly'){const db=await journalDatabase;return db.transaction(name,mode).objectStore(name);}
+function requestResult(request){return new Promise((resolve,reject)=>{request.onsuccess=()=>resolve(request.result);request.onerror=()=>reject(request.error);});}
+async function storePhoto(file){const id=crypto.randomUUID();const store=await journalStore('photos','readwrite');await requestResult(store.put(file,id));const temporaryUrl=URL.createObjectURL(file);transientPhotoKeys.set(temporaryUrl,`idb:${id}`);return temporaryUrl;}
+async function displayPhoto(url){if(!url?.startsWith('idb:'))return url;const store=await journalStore('photos');const blob=await requestResult(store.get(url.slice(4)));return blob?URL.createObjectURL(blob):'';}
+async function hydratePost(post){return {...post,image_url:await displayPhoto(post.image_url)};}
+function localCommunity(){return journalPosts;}
+function saveLocalCommunity(posts){journalPosts=posts;void (async()=>{const store=await journalStore('posts','readwrite');await requestResult(store.clear());for(const post of posts){const stored={...post,image_url:transientPhotoKeys.get(post.image_url)||post.image_url};await requestResult(store.put(stored));}})();}
+async function initialiseJournal(){const store=await journalStore('posts');journalPosts=await requestResult(store.getAll());const legacy=localStorage.getItem(localCommunityKey);if(legacy&&!journalPosts.length){try{const oldPosts=JSON.parse(legacy);for(const post of oldPosts){if(post.image_url?.startsWith('data:')){const blob=await fetch(post.image_url).then(response=>response.blob());post.image_url=await storePhoto(blob);}journalPosts.push(post);}saveLocalCommunity(journalPosts);localStorage.removeItem(localCommunityKey);}catch{}}loadFeed();}
 function localApi(path, options={}){
   const posts=localCommunity(); const method=(options.method||'GET').toUpperCase();
-  if(path==='/api/uploads' && method==='POST') return new Promise((resolve,reject)=>{ const reader=new FileReader(); reader.onload=()=>resolve({url:reader.result}); reader.onerror=()=>reject(new Error('사진을 읽지 못했어요.')); reader.readAsDataURL(options.body); });
-  if(path==='/api/posts' && method==='GET') return Promise.resolve(posts.sort((a,b)=>new Date(b.created_at)-new Date(a.created_at)));
+  if(path==='/api/uploads' && method==='POST') return storePhoto(options.body).then(url=>({url}));
+  if(path==='/api/posts' && method==='GET') return Promise.all(posts.sort((a,b)=>new Date(b.created_at)-new Date(a.created_at)).map(hydratePost));
   if(path==='/api/posts' && method==='POST'){ const body=JSON.parse(options.body); const post={id:crypto.randomUUID(),title:body.title,description:body.description,location:body.location,image_url:body.imageUrl,created_at:new Date().toISOString(),comments:[]}; posts.unshift(post); saveLocalCommunity(posts); return Promise.resolve(post); }
   const match=path.match(/^\/api\/posts\/([^/]+)(\/comments)?$/); const post=match&&posts.find(item=>item.id===match[1]);
-  if(post && !match[2] && method==='GET') return Promise.resolve(post);
+  if(post && !match[2] && method==='GET') return hydratePost(post);
   if(post && match[2] && method==='POST'){ const comment={id:crypto.randomUUID(),content:JSON.parse(options.body).content,created_at:new Date().toISOString()}; post.comments.push(comment); saveLocalCommunity(posts); return Promise.resolve(comment); }
   return Promise.reject(new Error('요청을 처리하지 못했어요.'));
 }
@@ -359,7 +368,7 @@ var activeCommunityPostId=null;
 $('#feed').addEventListener('click',e=>{const card=e.target.closest('[data-post]');if(!card)return;activeCommunityPostId=card.dataset.post;setTimeout(()=>{const post=storedPost(activeCommunityPostId);if(post){attachPostControls(post);attachCommentControls(post);}},500);});
 new MutationObserver(()=>{const post=storedPost(activeCommunityPostId);if(post)attachCommentControls(post);}).observe($('#detail-content'),{childList:true,subtree:true});
 $('#feed').addEventListener('click',e=>{if(!e.target.closest('[data-post]'))return;setTimeout(()=>{ $('#comments')?.remove(); $('#comment-form')?.remove(); },500);});
-renderJournalFilters(); loadFeed();
+renderJournalFilters(); initialiseJournal();
 </script>
   </body>
 </html>
