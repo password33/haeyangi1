@@ -109,79 +109,79 @@ body[data-sea-theme="guardian"] .shell{box-shadow:0 0 90px rgba(90,43,153,.28)}b
     <dialog id="detail-dialog" class="modal"><div id="detail-content"></div></dialog><div class="toast" id="toast" role="status"></div>
     <footer>해양이 · 부산의 바다를 더 안심하고 즐기기 위한 오늘의 기록</footer>
     <script>window.__KMA_DATA__={
-  "generatedAt": "2026-07-31T00:32:59.687Z",
+  "generatedAt": "2026-07-31T01:44:46.006Z",
   "provider": "기상청 해수욕장 예보",
   "beaches": {
     "광안리": {
-      "temp": 20.2,
+      "temp": 20.9,
       "wave": 0.2,
-      "wind": 2,
-      "air": 31.6,
-      "observed": "2026년 07월 31일 09:00",
+      "wind": 1.7,
+      "air": 33.3,
+      "observed": "2026년 07월 31일 10:00",
       "source": "https://www.weather.go.kr/special/CRP/beach/rpt_beach_306.html",
       "tomorrow": {
         "date": "01일(토)",
-        "air": 32,
-        "wind": 3,
+        "air": 32.5,
+        "wind": 2.8,
         "rain": 0,
         "weather": "예보"
       }
     },
     "해운대": {
-      "temp": 20.2,
+      "temp": 20.9,
       "wave": 0.2,
-      "wind": 2,
-      "air": 31.6,
-      "observed": "2026년 07월 31일 09:00",
+      "wind": 1.7,
+      "air": 33.3,
+      "observed": "2026년 07월 31일 10:00",
       "source": "https://www.weather.go.kr/special/CRP/beach/rpt_beach_304.html",
       "tomorrow": {
         "date": "01일(토)",
-        "air": 32,
-        "wind": 3,
+        "air": 32.5,
+        "wind": 2.8,
         "rain": 0,
         "weather": "예보"
       }
     },
     "송정": {
-      "temp": 20.2,
+      "temp": 20.9,
       "wave": 0.2,
-      "wind": 2,
-      "air": 31.6,
-      "observed": "2026년 07월 31일 09:00",
+      "wind": 1.7,
+      "air": 33.3,
+      "observed": "2026년 07월 31일 10:00",
       "source": "https://www.weather.go.kr/special/CRP/beach/rpt_beach_305.html",
       "tomorrow": {
         "date": "01일(토)",
-        "air": 31.8,
-        "wind": 3,
+        "air": 32.3,
+        "wind": 2.8,
         "rain": 0,
         "weather": "예보"
       }
     },
     "송도": {
-      "temp": 20.2,
-      "wave": 0.3,
-      "wind": 2,
-      "air": 31.2,
-      "observed": "2026년 07월 31일 09:00",
+      "temp": 20.9,
+      "wave": 0.2,
+      "wind": 3.9,
+      "air": 32.8,
+      "observed": "2026년 07월 31일 10:00",
       "source": "https://www.weather.go.kr/special/CRP/beach/rpt_beach_268.html",
       "tomorrow": {
         "date": "01일(토)",
-        "air": 30,
+        "air": 30.3,
         "wind": 3.5,
         "rain": 0,
         "weather": "예보"
       }
     },
     "다대포": {
-      "temp": 24,
-      "wave": 0.3,
-      "wind": 2,
-      "air": 31.2,
-      "observed": "2026년 07월 31일 09:00",
+      "temp": 23.9,
+      "wave": 0.2,
+      "wind": 3.9,
+      "air": 32.8,
+      "observed": "2026년 07월 31일 10:00",
       "source": "https://www.weather.go.kr/special/CRP/beach/rpt_beach_308.html",
       "tomorrow": {
         "date": "01일(토)",
-        "air": 30.3,
+        "air": 30.5,
         "wind": 3.3,
         "rain": 0,
         "weather": "예보"
@@ -288,10 +288,10 @@ async function fetchLive() {
 async function fetchKma() {
   const button = $('#refresh-button'); button.classList.add('loading');
   try {
-    const payload = window.__KMA_DATA__ || await fetch('./data/kma-beach.json', { cache: 'no-store' }).then(response => {
+    const payload = await fetch('./data/kma-beach.json', { cache: 'no-store' }).then(response => {
       if (!response.ok) throw new Error('기상청 데이터 파일을 찾지 못했습니다.');
       return response.json();
-    });
+    }).catch(() => window.__KMA_DATA__);
     if(payload?.beaches) rankingData=payload.beaches;
     const item = rankingData?.[beaches[selected].name];
     if (!item) throw new Error('선택한 해수욕장 데이터가 없습니다.');
