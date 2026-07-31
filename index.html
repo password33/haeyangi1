@@ -112,82 +112,87 @@ body[data-sea-theme="guardian"] .shell{box-shadow:0 0 90px rgba(90,43,153,.28)}b
     <dialog id="detail-dialog" class="modal"><div id="detail-content"></div></dialog><div class="toast" id="toast" role="status"></div>
     <footer>해양이 · 부산의 바다를 더 안심하고 즐기기 위한 오늘의 기록</footer>
     <script>window.__KMA_DATA__={
-  "generatedAt": "2026-07-31T01:44:46.006Z",
+  "generatedAt": "2026-07-31T03:01:32.500Z",
   "provider": "기상청 해수욕장 예보",
   "beaches": {
     "광안리": {
-      "temp": 20.9,
+      "temp": 21.3,
       "wave": 0.2,
-      "wind": 1.7,
-      "air": 33.3,
-      "observed": "2026년 07월 31일 10:00",
+      "wind": 1.5,
+      "air": 34.3,
+      "weather": "맑음",
+      "observed": "2026년 07월 31일 11:00",
       "source": "https://www.weather.go.kr/special/CRP/beach/rpt_beach_306.html",
       "tomorrow": {
         "date": "01일(토)",
         "air": 32.5,
         "wind": 2.8,
         "rain": 0,
-        "weather": "예보"
+        "weather": "맑음"
       }
     },
     "해운대": {
-      "temp": 20.9,
+      "temp": 21.3,
       "wave": 0.2,
-      "wind": 1.7,
-      "air": 33.3,
-      "observed": "2026년 07월 31일 10:00",
+      "wind": 1.5,
+      "air": 34.3,
+      "weather": "맑음",
+      "observed": "2026년 07월 31일 11:00",
       "source": "https://www.weather.go.kr/special/CRP/beach/rpt_beach_304.html",
       "tomorrow": {
         "date": "01일(토)",
         "air": 32.5,
         "wind": 2.8,
         "rain": 0,
-        "weather": "예보"
+        "weather": "맑음"
       }
     },
     "송정": {
-      "temp": 20.9,
+      "temp": 21.3,
       "wave": 0.2,
-      "wind": 1.7,
-      "air": 33.3,
-      "observed": "2026년 07월 31일 10:00",
+      "wind": 1.5,
+      "air": 34.3,
+      "weather": "맑음",
+      "observed": "2026년 07월 31일 11:00",
       "source": "https://www.weather.go.kr/special/CRP/beach/rpt_beach_305.html",
       "tomorrow": {
         "date": "01일(토)",
         "air": 32.3,
-        "wind": 2.8,
+        "wind": 2.3,
         "rain": 0,
-        "weather": "예보"
+        "weather": "맑음"
       }
     },
     "송도": {
-      "temp": 20.9,
+      "temp": 21.3,
       "wave": 0.2,
-      "wind": 3.9,
-      "air": 32.8,
-      "observed": "2026년 07월 31일 10:00",
+      "wind": 4.1,
+      "air": 34,
+      "weather": "맑음",
+      "observed": "2026년 07월 31일 11:00",
       "source": "https://www.weather.go.kr/special/CRP/beach/rpt_beach_268.html",
       "tomorrow": {
         "date": "01일(토)",
         "air": 30.3,
-        "wind": 3.5,
+        "wind": 3,
         "rain": 0,
-        "weather": "예보"
+        "weather": "맑음"
       }
     },
     "다대포": {
-      "temp": 23.9,
-      "wave": 0.2,
-      "wind": 3.9,
-      "air": 32.8,
-      "observed": "2026년 07월 31일 10:00",
+      "temp": 23.7,
+      "wave": 0.3,
+      "wind": 4.1,
+      "air": 34,
+      "weather": "맑음",
+      "observed": "2026년 07월 31일 11:00",
       "source": "https://www.weather.go.kr/special/CRP/beach/rpt_beach_308.html",
       "tomorrow": {
         "date": "01일(토)",
         "air": 30.5,
-        "wind": 3.3,
+        "wind": 3,
         "rain": 0,
-        "weather": "예보"
+        "weather": "맑음"
       }
     }
   }
@@ -237,6 +242,7 @@ function tomorrowHealth(d) {
   const air = Math.max(0, 100 - Math.max(0, Math.abs(d.air - 27) - 4) * 7);
   return Math.round(wind * .50 + rain * .30 + air * .20);
 }
+function weatherIcon(weather='') { if(/비|소나기|눈/.test(weather)) return '☔'; if(/흐림|구름/.test(weather)) return '☁'; if(/안개/.test(weather)) return '〰'; return '☀'; }
 function renderTomorrow(tomorrow) {
   const card = $('.tomorrow-card');
   if (!tomorrow) { card.hidden = true; return; }
@@ -244,7 +250,7 @@ function renderTomorrow(tomorrow) {
   const score = tomorrowHealth(tomorrow);
   $('#tomorrow-score').textContent = score;
   $('#tomorrow-note').textContent = `${tomorrow.date} · 기상청 단기예보 기준 외출 컨디션`;
-  $('#tomorrow-metrics').innerHTML = `<span>기온 ${tomorrow.air.toFixed(1)}℃</span><span>풍속 ${tomorrow.wind.toFixed(1)}m/s</span><span>강수확률 ${tomorrow.rain}%</span>`;
+  $('#tomorrow-metrics').innerHTML = `<span>${weatherIcon(tomorrow.weather)} ${tomorrow.weather}</span><span>기온 ${tomorrow.air.toFixed(1)}℃</span><span>풍속 ${tomorrow.wind.toFixed(1)}m/s</span><span>강수확률 ${tomorrow.rain}%</span>`;
 }
 function grade(score) { return score >= 86 ? '아주 좋아요' : score >= 72 ? '좋아요' : score >= 55 ? '보통이에요' : '주의가 필요해요'; }
 function diagnosis(d, score) {
@@ -273,7 +279,7 @@ function render(d, source) {
   $('#score').textContent = score;
   $('#grade').textContent = grade(score);
   $('#gauge').style.setProperty('--score', score);
-  $('#metrics').innerHTML = [metric('♨', '해수 온도', d.temp.toFixed(1), '°C', '쾌적도 기준 24°C'), metric('〰', '최고 파고', d.wave.toFixed(2), 'm', d.wave < .6 ? '잔잔한 편이에요' : '파도에 유의하세요'), metric('↝', '풍속', d.wind.toFixed(1), 'm/s', d.wind < 5 ? '바람이 잔잔해요' : '강한 바람이 불어요'), metric('☀', '기온', d.air.toFixed(1), '°C', `해수욕지수 ${d.index}`)].join('');
+  $('#metrics').innerHTML = [metric('♨', '해수 온도', d.temp.toFixed(1), '°C', '쾌적도 기준 24°C'), metric('〰', '최고 파고', d.wave.toFixed(2), 'm', d.wave < .6 ? '잔잔한 편이에요' : '파도에 유의하세요'), metric('↝', '풍속', d.wind.toFixed(1), 'm/s', d.wind < 5 ? '바람이 잔잔해요' : '강한 바람이 불어요'), metric(weatherIcon(d.weather), '오늘 날씨', d.air.toFixed(1), '°C', d.weather || '기상청 예보')].join('');
   $('#diagnosis-text').textContent = diagnosis(d, score);
   renderTomorrow(d.tomorrow);
   renderRanking();
