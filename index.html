@@ -247,10 +247,17 @@ function renderTomorrow(tomorrow) {
 function grade(score) { return score >= 86 ? '아주 좋아요' : score >= 72 ? '좋아요' : score >= 55 ? '보통이에요' : '주의가 필요해요'; }
 function diagnosis(d, score) {
   const beach = beaches[selected].name;
-  if (score >= 86) return `${beach} 바다는 전반적으로 매우 안정적이에요. ${d.temp.toFixed(1)}°C의 쾌적한 수온과 낮은 파고가 확인됐습니다. 가벼운 물놀이와 산책 모두 좋은 시간이에요.`;
-  if (score >= 72) return `${beach} 바다는 대체로 좋은 컨디션이에요. 파도 변화를 가볍게 확인하면서 해변 활동을 즐겨보세요.`;
-  if (score >= 55) return `${beach} 바다는 무난하지만 파고와 바람이 평소보다 느껴질 수 있어요. 물가에서는 안전수칙을 더 꼼꼼히 챙겨주세요.`;
-  return `${beach} 바다는 오늘 신중한 접근이 필요해요. 해변 산책을 중심으로 즐기고, 입수 전 현장 안전요원의 안내를 확인하세요.`;
+  const essentials=['물','자외선 차단제'];
+  if(d.air>=29) essentials.push('모자');
+  if(d.air<22) essentials.push('얇은 겉옷');
+  if(d.wind>=4) essentials.push('바람막이');
+  if(d.wave>=.6) essentials.push('미끄럼 방지 샌들');
+  if(d.temp<22) essentials.push('큰 타월');
+  const packing=`준비물: ${essentials.join(' · ')}`;
+  if (score >= 86) return `${beach} 바다는 전반적으로 아주 좋은 컨디션이에요. 가벼운 물놀이와 산책 모두 잘 어울립니다. ${packing}`;
+  if (score >= 72) return `${beach} 바다는 대체로 좋은 컨디션이에요. 파도 변화를 가볍게 확인하며 즐겨보세요. ${packing}`;
+  if (score >= 55) return `${beach} 바다는 무난하지만 바람과 파고가 평소보다 느껴질 수 있어요. 물가 안전수칙을 챙겨주세요. ${packing}`;
+  return `${beach} 바다는 오늘 해변 산책 중심으로 즐기기를 권해요. 입수 전 현장 안전요원 안내를 확인하세요. ${packing}`;
 }
 function metric(icon, label, value, unit, sub) { return `<div class="metric"><div class="metric-top"><span class="metric-icon">${icon}</span><span class="metric-label">${label}</span></div><strong>${value}</strong><small>${unit}</small><div class="sub">${sub}</div></div>`; }
 function renderRanking(){const rows=beaches.map((beach,index)=>({index,name:beach.name,score:health(rankingData[beach.name]||beach.demo)})).sort((a,b)=>b.score-a.score);$('#ranking-list').innerHTML=rows.map((row,position)=>`<button type="button" class="ranking-row ${row.index===selected?'selected':''}" data-ranking-id="${row.index}"><span class="ranking-place">${position+1}</span><span class="ranking-name">${row.name}</span><strong>${row.score}</strong><small>점</small>${position===0?'<em>오늘 추천</em>':''}</button>`).join('');}
