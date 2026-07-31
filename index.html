@@ -85,8 +85,8 @@
         </div>
       </details>
       <section class="community" id="community">
-        <div class="community-heading"><div><p class="eyebrow">BUSAN SEA COMMUNITY</p><h2>오늘의 바다 기록</h2></div><button class="post-button" id="open-post" type="button">+ 사진 올리기</button></div>
-          <p class="community-intro">부산 바다에서 만난 순간을 익명으로 기록해 보세요. 현재 GitHub Pages 버전의 사진·댓글은 이 기기에만 저장됩니다.</p><div class="feed" id="feed"><p class="feed-message">바다 기록을 불러오는 중이에요.</p></div>
+        <div class="community-heading"><div><p class="eyebrow">MY BUSAN SEA JOURNAL</p><h2>나만의 바다 기록</h2></div><button class="post-button" id="open-post" type="button">+ 사진 기록하기</button></div>
+          <p class="community-intro">부산 바다에서 만난 순간을 나만의 사진 일기로 남겨보세요. 기록은 이 기기의 현재 브라우저에만 저장됩니다.</p><div class="feed" id="feed"><p class="feed-message">내 바다 기록을 불러오는 중이에요.</p></div>
       </section>
     </main>
     <dialog id="post-dialog" class="modal"><form id="post-form"><div class="modal-head"><h2>바다 기록 올리기</h2><button class="close" type="button" data-close="post-dialog">×</button></div><label>사진<input name="photo" type="file" accept="image/*" required /></label><label>제목<input name="title" maxlength="80" required /></label><label>짧은 설명<textarea name="description" maxlength="400" required></textarea></label><label>촬영 장소<select name="location" required><option>광안리</option><option>해운대</option><option>송정</option><option>송도</option><option>다대포</option><option>기타 부산 바다</option></select></label><button class="submit-post" type="submit">익명으로 공유하기</button><p class="form-error" id="post-error"></p></form></dialog>
@@ -173,7 +173,7 @@
     }
   }
 }
-;</script><script>const beaches = [
+;</script><script type="module">const beaches = [
   { name: '광안리', apiNames: ['광안리'], demo: { temp: 24.2, wave: .38, wind: 3.2, air: 27.1, raw: 88, index: '좋음' } },
   { name: '해운대', apiNames: ['해운대'], demo: { temp: 23.8, wave: .52, wind: 4.1, air: 26.4, raw: 82, index: '좋음' } },
   { name: '송정', apiNames: ['송정'], demo: { temp: 24.5, wave: .31, wind: 2.7, air: 27.8, raw: 93, index: '매우 좋음' } },
@@ -320,7 +320,18 @@ function localApi(path, options={}){
   if(post && match[2] && method==='POST'){ const comment={id:crypto.randomUUID(),content:JSON.parse(options.body).content,created_at:new Date().toISOString()}; post.comments.push(comment); saveLocalCommunity(posts); return Promise.resolve(comment); }
   return Promise.reject(new Error('요청을 처리하지 못했어요.'));
 }
-async function api(path, options){ try { const r=await fetch(path,options); const d=await r.json().catch(()=>({})); if(!r.ok) throw new Error(d.error||'요청 처리 중 오류가 발생했어요.'); return d; } catch { return localApi(path,options); } }
+const asPost = (snapshot) => ({ id:snapshot.id, ...snapshot.data(), created_at:new Date(snapshot.data().created_at || Date.now()).toISOString(), comments:[] });
+async function firebaseApi(path, options={}){
+  const method=(options.method||'GET').toUpperCase(); const uid=await firebaseUserId();
+  if(path==='/api/uploads' && method==='POST'){ const file=options.body; const objectRef=ref(firebaseStorage,`posts/${uid}/${Date.now()}-${file.name.replace(/[^a-zA-Z0-9._-]/g,'_')}`); await uploadBytes(objectRef,file,{contentType:file.type}); return {url:await getDownloadURL(objectRef)}; }
+  if(path==='/api/posts' && method==='GET'){ const snapshots=await getDocs(query(collection(firebaseDb,'posts'),orderBy('created_at','desc'))); return snapshots.docs.map(asPost); }
+  if(path==='/api/posts' && method==='POST'){ const body=JSON.parse(options.body); const reference=await addDoc(collection(firebaseDb,'posts'),{title:body.title,description:body.description,location:body.location,image_url:body.imageUrl,created_at:Date.now(),owner_uid:uid}); return {id:reference.id,...body,image_url:body.imageUrl,created_at:new Date().toISOString(),comments:[]}; }
+  const match=path.match(/^\/api\/posts\/([^/]+)(\/comments)?$/); if(!match)throw new Error('요청 경로가 올바르지 않아요.'); const postRef=doc(firebaseDb,'posts',match[1]);
+  if(!match[2] && method==='GET'){ const snapshot=await getDoc(postRef); if(!snapshot.exists())throw new Error('게시글을 찾지 못했어요.'); const post=asPost(snapshot); const comments=await getDocs(query(collection(postRef,'comments'),orderBy('created_at','asc'))); post.comments=comments.docs.map(item=>({id:item.id,...item.data(),created_at:new Date(item.data().created_at||Date.now()).toISOString()})); return post; }
+  if(match[2] && method==='POST'){ const body=JSON.parse(options.body); const reference=await addDoc(collection(postRef,'comments'),{content:body.content,created_at:Date.now(),owner_uid:uid}); return {id:reference.id,content:body.content,created_at:new Date().toISOString()}; }
+  throw new Error('지원하지 않는 요청이에요.');
+}
+async function api(path, options){ return localApi(path,options); }
 async function loadFeed(){ try{const posts=await api('/api/posts'); $('#feed').innerHTML=posts.length?posts.map(p=>`<article class="post-card" data-post="${p.id}"><img src="${p.image_url}" alt="${esc(p.title)}"><div class="post-body"><div class="post-meta"><span>${esc(p.location)}</span><span>${ago(p.created_at)}</span></div><h3>${esc(p.title)}</h3><p>${esc(p.description)}</p></div></article>`).join(''):'<p class="feed-message">첫 번째 바다 기록을 남겨보세요.</p>'; }catch(e){$('#feed').innerHTML='<p class="feed-message">기록을 불러오지 못했어요. 잠시 후 다시 시도해 주세요.</p>';toast(e.message)} }
 $('#open-post').onclick=()=>$('#post-dialog').showModal(); document.querySelectorAll('[data-close]').forEach(b=>b.onclick=()=>$('#'+b.dataset.close).close());
 $('#post-form').addEventListener('submit',async e=>{e.preventDefault(); const form=e.currentTarget, fd=new FormData(form), err=$('#post-error'); err.textContent=''; const file=fd.get('photo'); if(!file?.size){err.textContent='사진을 선택해 주세요.';return} if(file.size>8*1024*1024){err.textContent='사진은 8MB 이하만 올릴 수 있어요.';return} try{const up=await api('/api/uploads',{method:'POST',body:file,headers:{'Content-Type':file.type}}); await api('/api/posts',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({title:fd.get('title'),description:fd.get('description'),location:fd.get('location'),imageUrl:up.url})}); form.reset();$('#post-dialog').close();toast('바다 기록을 공유했어요.');loadFeed()}catch(x){err.textContent=x.message}});
@@ -329,6 +340,7 @@ $('#feed').addEventListener('click',async e=>{const card=e.target.closest('[data
 var activeCommunityPostId=null;
 $('#feed').addEventListener('click',e=>{const card=e.target.closest('[data-post]');if(!card)return;activeCommunityPostId=card.dataset.post;setTimeout(()=>{const post=storedPost(activeCommunityPostId);if(post){attachPostControls(post);attachCommentControls(post);}},500);});
 new MutationObserver(()=>{const post=storedPost(activeCommunityPostId);if(post)attachCommentControls(post);}).observe($('#detail-content'),{childList:true,subtree:true});
+$('#feed').addEventListener('click',e=>{if(!e.target.closest('[data-post]'))return;setTimeout(()=>{ $('#comments')?.remove(); $('#comment-form')?.remove(); },500);});
 </script>
   </body>
 </html>
