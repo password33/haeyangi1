@@ -29,6 +29,8 @@ body[data-sea-theme="coast"] .hero{background:linear-gradient(135deg,#8b4a56,#d7
 body[data-sea-theme="archive"] .hero{background:linear-gradient(135deg,#182d57,#495b89 58%,#b7bccd)}body[data-sea-theme="archive"] .community{background:#edf0f8}body[data-sea-theme="archive"] .post-button{background:#344b78}
 body[data-sea-theme="master"] .hero{background:linear-gradient(135deg,#031e44,#07517b 55%,#19a9af)}body[data-sea-theme="master"] .community{background:#e2f5f6}body[data-sea-theme="master"] .post-button{background:#075d79}
 body[data-sea-theme="guardian"] .shell{box-shadow:0 0 90px rgba(90,43,153,.28)}body[data-sea-theme="guardian"] .hero{background:linear-gradient(135deg,#1c1552,#56357e 54%,#d27b9e)}body[data-sea-theme="guardian"] .community{background:#f5ebfb}body[data-sea-theme="guardian"] .post-button{background:#613583}body[data-sea-theme="guardian"] .badge-book{border-color:#b58bd0;background:linear-gradient(145deg,#fff7e8,#f0e7ff)}
+
+.today-ranking{margin:20px 30px 0;padding:20px;border:1px solid #c9e7ea;border-radius:20px;background:linear-gradient(135deg,#faffff,#e7f8f8)}.ranking-heading{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:13px}.ranking-heading h2{margin:2px 0 0;font-size:20px;letter-spacing:-.06em}.ranking-heading>span{padding:5px 8px;border-radius:99px;background:#d3f1f2;color:#397381;font-size:10px;font-weight:800}.ranking-list{display:grid;gap:7px}.ranking-row{display:grid;grid-template-columns:28px 1fr auto 15px auto;gap:6px;align-items:center;width:100%;border:1px solid #d9ebed;border-radius:12px;padding:10px;background:#fff;color:#17475f;font-family:"Noto Sans KR",sans-serif;text-align:left;cursor:pointer}.ranking-row.selected{border-color:#0a6189;box-shadow:0 0 0 2px #bde9ed}.ranking-place{display:grid;place-items:center;width:24px;height:24px;border-radius:50%;background:#e9f5f6;color:#437683;font-weight:900;font-size:12px}.ranking-row:first-child .ranking-place{background:#f7ce64;color:#705012}.ranking-name{font-size:13px;font-weight:800}.ranking-row strong{font-size:15px}.ranking-row small{color:#6e909b;font-size:10px}.ranking-row em{padding:3px 6px;border-radius:6px;background:#062e49;color:#d9fbfb;font-size:9px;font-style:normal;font-weight:800}@media(max-width:460px){.today-ranking{margin-left:20px;margin-right:20px;padding:16px}.ranking-row{grid-template-columns:26px 1fr auto 13px auto}.ranking-row em{font-size:8px;padding:3px 4px}}
 </style>
       <style>.hero em{font-family:"Noto Sans KR",sans-serif;font-style:normal;font-weight:800;letter-spacing:-.08em}.formula-grid-four{grid-template-columns:repeat(4,1fr)}@media(max-width:460px){.formula-grid-four{grid-template-columns:repeat(2,1fr)}}</style>
   </head>
@@ -50,6 +52,8 @@ body[data-sea-theme="guardian"] .shell{box-shadow:0 0 90px rgba(90,43,153,.28)}b
         <p class="section-label">어느 바다를 살펴볼까요?</p>
         <div class="beach-list" id="beach-list"></div>
       </section>
+
+      <section class="today-ranking" aria-labelledby="ranking-title"><div class="ranking-heading"><div><p class="eyebrow">TODAY'S SEA PICK</p><h2 id="ranking-title">오늘 어디로 갈까?</h2></div><span>컨디션 순위</span></div><div id="ranking-list" class="ranking-list"></div></section>
 
       <section class="report" aria-live="polite">
         <div class="report-heading">
@@ -195,6 +199,7 @@ body[data-sea-theme="guardian"] .shell{box-shadow:0 0 90px rgba(90,43,153,.28)}b
 
 let selected = 0;
 let currentSource = 'demo';
+let rankingData = Object.fromEntries(beaches.map(beach => [beach.name, beach.demo]));
 const $ = (sel) => document.querySelector(sel);
 
 function n(v) { const x = Number.parseFloat(v); return Number.isFinite(x) ? x : null; }
@@ -246,6 +251,7 @@ function diagnosis(d, score) {
   return `${beach} 바다는 오늘 신중한 접근이 필요해요. 해변 산책을 중심으로 즐기고, 입수 전 현장 안전요원의 안내를 확인하세요.`;
 }
 function metric(icon, label, value, unit, sub) { return `<div class="metric"><div class="metric-top"><span class="metric-icon">${icon}</span><span class="metric-label">${label}</span></div><strong>${value}</strong><small>${unit}</small><div class="sub">${sub}</div></div>`; }
+function renderRanking(){const rows=beaches.map((beach,index)=>({index,name:beach.name,score:health(rankingData[beach.name]||beach.demo)})).sort((a,b)=>b.score-a.score);$('#ranking-list').innerHTML=rows.map((row,position)=>`<button type="button" class="ranking-row ${row.index===selected?'selected':''}" data-ranking-id="${row.index}"><span class="ranking-place">${position+1}</span><span class="ranking-name">${row.name}</span><strong>${row.score}</strong><small>점</small>${position===0?'<em>오늘 추천</em>':''}</button>`).join('');}
 function render(d, source) {
   const score = health(d);
   $('#beach-name').textContent = beaches[selected].name;
@@ -259,6 +265,7 @@ function render(d, source) {
   $('#metrics').innerHTML = [metric('♨', '해수 온도', d.temp.toFixed(1), '°C', '쾌적도 기준 24°C'), metric('〰', '최고 파고', d.wave.toFixed(2), 'm', d.wave < .6 ? '잔잔한 편이에요' : '파도에 유의하세요'), metric('↝', '풍속', d.wind.toFixed(1), 'm/s', d.wind < 5 ? '바람이 잔잔해요' : '강한 바람이 불어요'), metric('☀', '기온', d.air.toFixed(1), '°C', `해수욕지수 ${d.index}`)].join('');
   $('#diagnosis-text').textContent = diagnosis(d, score);
   renderTomorrow(d.tomorrow);
+  renderRanking();
 }
 function renderButtons() { $('#beach-list').innerHTML = beaches.map((b, i) => `<button class="beach ${i === selected ? 'active' : ''}" type="button" data-id="${i}">${b.name}</button>`).join(''); }
 async function fetchLive() {
@@ -285,7 +292,8 @@ async function fetchKma() {
       if (!response.ok) throw new Error('기상청 데이터 파일을 찾지 못했습니다.');
       return response.json();
     });
-    const item = payload?.beaches?.[beaches[selected].name];
+    if(payload?.beaches) rankingData=payload.beaches;
+    const item = rankingData?.[beaches[selected].name];
     if (!item) throw new Error('선택한 해수욕장 데이터가 없습니다.');
     currentSource = 'kma'; render(item, 'kma'); return true;
   } catch (err) {
@@ -294,6 +302,7 @@ async function fetchKma() {
 }
 async function update() { await fetchKma(); }
 $('#beach-list').addEventListener('click', async (e) => { const id = e.target.dataset.id; if (id === undefined) return; selected = Number(id); renderButtons(); await update(); });
+$('#ranking-list').addEventListener('click',async e=>{const id=e.target.closest('[data-ranking-id]')?.dataset.rankingId;if(id===undefined)return;selected=Number(id);renderButtons();await update();});
 $('#refresh-button').addEventListener('click', update);
 $('#save-key')?.addEventListener('click', async () => { const key = $('#api-key').value.trim(); if (!key) { alert('서비스키를 입력해 주세요.'); return; } localStorage.setItem('haeyangi-api-key', key); $('#api-key').value = ''; await update(); });
 $('#demo-button')?.addEventListener('click', () => { currentSource='demo'; render(beaches[selected].demo, 'demo'); });
