@@ -20,6 +20,7 @@
 .manage-controls{display:flex;gap:6px;flex-wrap:wrap;margin-top:14px}.manage-button{border:1px solid #bcdde5;border-radius:8px;padding:5px 8px;background:#fff;color:#286078;font:600 11px "Noto Sans KR",sans-serif;cursor:pointer}.manage-button.danger{border-color:#ffd0c9;color:#b84e43}.comment-controls{margin:8px 0 0}.comment-controls .manage-button{padding:3px 6px;font-size:10px}
 
 .journal-filters{display:flex;gap:8px;overflow-x:auto;padding:2px 0 16px;scrollbar-width:none}.journal-filters::-webkit-scrollbar{display:none}.journal-filter{flex:0 0 auto;border:1px solid #b8dce3;border-radius:999px;padding:8px 11px;background:#f8ffff;color:#376b7d;font:700 12px "Noto Sans KR",sans-serif;cursor:pointer}.journal-filter.active{border-color:#0a6189;background:#0a6189;color:#fff}.post-card{position:relative}.post-card:before{content:"SEA LOG";position:absolute;z-index:1;top:10px;left:10px;padding:5px 7px;border-radius:6px;background:#062e49dd;color:#d9fcff;font:800 9px "Noto Sans KR",sans-serif;letter-spacing:.08em}.post-meta span:first-child{font-weight:800;color:#177096}
+.more-journal{border:1px dashed #9bc8d1;border-radius:12px;padding:13px;background:#f8ffff;color:#216a7f;font:800 12px "Noto Sans KR",sans-serif;cursor:pointer}
 
 .badge-book{margin-top:24px;padding:20px 16px;border:1px solid #cfe7eb;border-radius:18px;background:linear-gradient(145deg,#f7feff,#e3f6f7)}.badge-book h3{margin:3px 0 5px;font-size:18px}.badge-book>div>p:last-child{margin:0;color:#57808d;font-size:12px}.badge-list{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:16px}.badge{display:grid;justify-items:center;gap:3px;padding:11px 5px;border-radius:12px;background:#edf4f5;color:#849ca4;filter:grayscale(1);text-align:center}.badge.earned{background:#fff7d8;color:#1d5d75;filter:none;box-shadow:inset 0 0 0 1px #f0d77f}.badge span{font-size:21px}.badge b{font-size:10px;line-height:1.25}.badge small{font-size:10px}@media(max-width:400px){.badge-list{grid-template-columns:repeat(2,1fr)}}
 
@@ -53,9 +54,9 @@ body[data-sea-theme="guardian"] .shell{box-shadow:0 0 90px rgba(90,43,153,.28)}b
         <div class="beach-list" id="beach-list"></div>
       </section>
 
-      <section class="today-ranking" aria-labelledby="ranking-title"><div class="ranking-heading"><div><p class="eyebrow">TODAY'S SEA PICK</p><h2 id="ranking-title">오늘 어디로 갈까?</h2></div><span>컨디션 순위</span></div><div id="ranking-list" class="ranking-list"></div></section>
+      <section class="today-ranking overview-only" aria-labelledby="ranking-title"><div class="ranking-heading"><div><p class="eyebrow">TODAY'S SEA PICK</p><h2 id="ranking-title">오늘 어디로 갈까?</h2></div><span>컨디션 순위</span></div><div id="ranking-list" class="ranking-list"></div></section>
 
-      <section class="report" aria-live="polite">
+      <section class="report beach-detail" aria-live="polite">
         <div class="report-heading">
           <div><p class="eyebrow" id="report-date">TODAY'S REPORT</p><h2 id="beach-name">광안리</h2><p id="observed-at" class="muted">데모 측정값 · 지금</p></div>
           <button class="icon-button" id="refresh-button" type="button" aria-label="데이터 새로고침">↻</button>
@@ -74,32 +75,32 @@ body[data-sea-theme="guardian"] .shell{box-shadow:0 0 90px rgba(90,43,153,.28)}b
         </article>
       </section>
 
-      <section class="formula">
+      <section class="formula beach-detail">
         <p class="section-label">점수는 이렇게 계산해요</p>
         <div class="formula-grid formula-grid-four"><span>해수온도 <b>25%</b></span><span>최고파고 <b>25%</b></span><span>풍속 <b>25%</b></span><span>기온 <b>25%</b></span></div>
         <p>기상청 해수욕장 예보의 해수온도·최고파고·풍속·기온을 같은 비율로 반영해 100점 만점으로 계산합니다.</p>
       </section>
 
-      <section class="tomorrow-card" aria-labelledby="tomorrow-title">
+      <section class="tomorrow-card beach-detail" aria-labelledby="tomorrow-title">
         <div><p class="eyebrow">TOMORROW BEACH OUTLOOK</p><h2 id="tomorrow-title">내일 해양이의 컨디션</h2><p id="tomorrow-note">기상청 예보를 불러오는 중이에요.</p></div>
         <div class="tomorrow-score"><strong id="tomorrow-score">--</strong><span>컨디션</span></div>
         <div class="tomorrow-metrics" id="tomorrow-metrics"></div>
       </section>
 
-      <section class="api-guide">
+      <section class="api-guide beach-detail">
         <div class="api-guide-title"><span class="guide-badge">KMA</span><div><p class="eyebrow">KOREA METEOROLOGICAL ADMINISTRATION</p><h3>기상청 해수욕장 예보</h3></div></div>
         <p>기상청 해수욕장 예보의 수온·파고·풍속·기온을 바탕으로 바다 컨디션 점수를 계산합니다.</p>
         <div class="field-chips"><span>해수욕장</span><span>제공 시각</span><span>수온</span><span>파고</span><span>풍속</span><span>기온</span><span>컨디션 점수</span></div>
       </section>
 
-      <details class="api-panel">
+      <details class="api-panel beach-detail">
         <summary>기상청 데이터 반영 방식 <span>⌄</span></summary>
         <div class="api-content">
           <p>공식 기상청 해수욕장 예보 페이지에서 갱신한 데이터를 사용합니다. 방문자는 API 키나 별도 로그인이 필요 없습니다. 새 데이터가 아직 준비되지 않은 경우에는 데모 데이터가 표시됩니다.</p>
           <a class="text-button" href="https://www.weather.go.kr/w/forecast/life/beach.do?groupCode=26%2F31%2F48" target="_blank" rel="noreferrer">기상청 해수욕장 예보 확인하기</a>
         </div>
       </details>
-      <section class="community" id="community">
+        <section class="community overview-only" id="community">
         <div class="community-heading"><div><p class="eyebrow">MY BUSAN SEA COLLECTION</p><h2>나만의 부산 바다 도감</h2></div><button class="post-button" id="open-post" type="button">+ 도감 기록하기</button></div>
           <p class="community-intro">해수욕장별로 나만의 사진 기록을 모아보세요. 기록은 이 기기의 현재 브라우저에만 저장됩니다.</p><div class="journal-filters" id="journal-filters"></div><div class="feed" id="feed"><p class="feed-message">내 바다 기록을 불러오는 중이에요.</p></div>
           <section class="badge-book" aria-labelledby="badge-title"><div><p class="eyebrow">SEA COLLECTION BADGES</p><h3 id="badge-title">나의 바다 뱃지</h3><p id="badge-summary">기록을 모아 첫 뱃지를 해금해 보세요.</p></div><div class="badge-list" id="badge-list"></div></section>
@@ -198,6 +199,7 @@ body[data-sea-theme="guardian"] .shell{box-shadow:0 0 90px rgba(90,43,153,.28)}b
 ];
 
 let selected = 0;
+let overviewMode = true;
 let currentSource = 'demo';
 let rankingData = Object.fromEntries(beaches.map(beach => [beach.name, beach.demo]));
 const $ = (sel) => document.querySelector(sel);
@@ -267,7 +269,8 @@ function render(d, source) {
   renderTomorrow(d.tomorrow);
   renderRanking();
 }
-function renderButtons() { $('#beach-list').innerHTML = beaches.map((b, i) => `<button class="beach ${i === selected ? 'active' : ''}" type="button" data-id="${i}">${b.name}</button>`).join(''); }
+function setView(){document.querySelectorAll('.overview-only').forEach(el=>el.hidden=!overviewMode);document.querySelectorAll('.beach-detail').forEach(el=>el.hidden=overviewMode);}
+function renderButtons() { $('#beach-list').innerHTML = `<button class="beach ${overviewMode ? 'active' : ''}" type="button" data-id="all">전체</button>` + beaches.map((b, i) => `<button class="beach ${!overviewMode && i === selected ? 'active' : ''}" type="button" data-id="${i}">${b.name}</button>`).join(''); }
 async function fetchLive() {
   const key = localStorage.getItem('haeyangi-api-key');
   if (!key) return false;
@@ -301,12 +304,12 @@ async function fetchKma() {
   } finally { button.classList.remove('loading'); }
 }
 async function update() { await fetchKma(); }
-$('#beach-list').addEventListener('click', async (e) => { const id = e.target.dataset.id; if (id === undefined) return; selected = Number(id); renderButtons(); await update(); });
-$('#ranking-list').addEventListener('click',async e=>{const id=e.target.closest('[data-ranking-id]')?.dataset.rankingId;if(id===undefined)return;selected=Number(id);renderButtons();await update();});
+$('#beach-list').addEventListener('click', async (e) => { const id = e.target.dataset.id; if (id === undefined) return; overviewMode=id==='all'; if(!overviewMode)selected=Number(id); renderButtons();setView();if(overviewMode)await update();else await update(); });
+$('#ranking-list').addEventListener('click',async e=>{const id=e.target.closest('[data-ranking-id]')?.dataset.rankingId;if(id===undefined)return;overviewMode=false;selected=Number(id);renderButtons();setView();await update();});
 $('#refresh-button').addEventListener('click', update);
 $('#save-key')?.addEventListener('click', async () => { const key = $('#api-key').value.trim(); if (!key) { alert('서비스키를 입력해 주세요.'); return; } localStorage.setItem('haeyangi-api-key', key); $('#api-key').value = ''; await update(); });
 $('#demo-button')?.addEventListener('click', () => { currentSource='demo'; render(beaches[selected].demo, 'demo'); });
-renderButtons(); update();
+renderButtons(); setView(); update();
 
 const esc = (s='') => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
 function storedPost(id){ return localCommunity().find(post=>post.id===id); }
@@ -363,12 +366,14 @@ async function firebaseApi(path, options={}){
 }
 async function api(path, options){ return localApi(path,options); }
 let journalFilter='전체';
+let journalExpanded=false;
 const journalBeaches=['전체','광안리','해운대','송정','송도','다대포'];
 const seaBadges=[{count:5,name:'바다새싹',icon:'🌱',theme:'sprout'},{count:20,name:'파도 탐험가',icon:'🌊',theme:'wave'},{count:40,name:'해안 기록자',icon:'📖',theme:'coast'},{count:60,name:'바다 아카이브',icon:'🗂️',theme:'archive'},{count:80,name:'오션 마스터',icon:'🐋',theme:'master'},{count:100,name:'부산 바다 수호자',icon:'🛟',theme:'guardian'}];
 function renderJournalFilters(){ $('#journal-filters').innerHTML=journalBeaches.map(name=>`<button type="button" class="journal-filter ${name===journalFilter?'active':''}" data-journal-filter="${name}">${name}</button>`).join(''); }
 function renderBadges(total){const next=seaBadges.find(badge=>total<badge.count);const current=[...seaBadges].reverse().find(badge=>total>=badge.count);document.body.dataset.seaTheme=current?.theme||'base';$('#badge-summary').textContent=next?`${total}개 기록 완료 · ${next.count-total}개 더 올리면 ‘${next.name}’ 뱃지를 받아요.`:`${total}개 기록 완료 · 부산 바다 수호자 달성!`;$('#badge-list').innerHTML=seaBadges.map(badge=>`<div class="badge ${total>=badge.count?'earned':''}"><span>${badge.icon}</span><b>${badge.name}</b><small>${badge.count}개</small></div>`).join('');}
-async function loadFeed(){ try{const allPosts=await api('/api/posts');renderBadges(allPosts.length);const posts=journalFilter==='전체'?allPosts:allPosts.filter(post=>post.location===journalFilter); $('#feed').innerHTML=posts.length?posts.map(p=>`<article class="post-card" data-post="${p.id}"><img src="${p.image_url}" alt="${esc(p.title)}"><div class="post-body"><div class="post-meta"><span>${esc(p.location)} 바다 도감</span><span>${ago(p.created_at)}</span></div><h3>${esc(p.title)}</h3><p>${esc(p.description)}</p></div></article>`).join(''):`<p class="feed-message">${journalFilter} 첫 번째 바다 기록을 남겨보세요.</p>`; }catch(e){$('#feed').innerHTML='<p class="feed-message">기록을 불러오지 못했어요. 잠시 후 다시 시도해 주세요.</p>';toast(e.message)} }
-$('#journal-filters').addEventListener('click',e=>{const filter=e.target.dataset.journalFilter;if(!filter)return;journalFilter=filter;renderJournalFilters();loadFeed();});
+async function loadFeed(){ try{const allPosts=await api('/api/posts');renderBadges(allPosts.length);const posts=journalFilter==='전체'?allPosts:allPosts.filter(post=>post.location===journalFilter);const visible=journalExpanded?posts:posts.slice(0,6); $('#feed').innerHTML=posts.length?visible.map(p=>`<article class="post-card" data-post="${p.id}"><img src="${p.image_url}" alt="${esc(p.title)}"><div class="post-body"><div class="post-meta"><span>${esc(p.location)} 바다 도감</span><span>${ago(p.created_at)}</span></div><h3>${esc(p.title)}</h3><p>${esc(p.description)}</p></div></article>`).join('')+(posts.length>6?`<button class="more-journal" type="button" id="more-journal">${journalExpanded?'접어두기':'더보기'} · ${posts.length}개 기록</button>`:''):`<p class="feed-message">${journalFilter} 첫 번째 바다 기록을 남겨보세요.</p>`; }catch(e){$('#feed').innerHTML='<p class="feed-message">기록을 불러오지 못했어요. 잠시 후 다시 시도해 주세요.</p>';toast(e.message)} }
+$('#journal-filters').addEventListener('click',e=>{const filter=e.target.dataset.journalFilter;if(!filter)return;journalFilter=filter;journalExpanded=false;renderJournalFilters();loadFeed();});
+$('#feed').addEventListener('click',e=>{if(e.target.id!=='more-journal')return;journalExpanded=!journalExpanded;loadFeed();});
 $('#open-post').onclick=()=>$('#post-dialog').showModal(); document.querySelectorAll('[data-close]').forEach(b=>b.onclick=()=>$('#'+b.dataset.close).close());
 $('#post-form').addEventListener('submit',async e=>{e.preventDefault(); const form=e.currentTarget, fd=new FormData(form), err=$('#post-error'); err.textContent=''; const file=fd.get('photo'); if(!file?.size){err.textContent='사진을 선택해 주세요.';return} if(file.size>8*1024*1024){err.textContent='사진은 8MB 이하만 올릴 수 있어요.';return} try{const up=await api('/api/uploads',{method:'POST',body:file,headers:{'Content-Type':file.type}}); await api('/api/posts',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({title:fd.get('title'),description:fd.get('description'),location:fd.get('location'),imageUrl:up.url})}); form.reset();$('#post-dialog').close();toast('바다 기록을 공유했어요.');loadFeed()}catch(x){err.textContent=x.message}});
 $('#feed').addEventListener('click',async e=>{const card=e.target.closest('[data-post]');if(!card)return; try{const p=await api('/api/posts/'+card.dataset.post);$('#detail-content').innerHTML=`<div class="detail-wrap"><div class="modal-head"><h2>바다 기록</h2><button class="close" type="button" id="close-detail">×</button></div><img class="detail-image" src="${p.image_url}" alt="${esc(p.title)}"><div class="detail-info"><div class="post-meta"><span>${esc(p.location)}</span><span>${ago(p.created_at)}</span></div><h2>${esc(p.title)}</h2><p>${esc(p.description)}</p></div><div class="comment-list" id="comments">${p.comments.map(c=>`<div class="comment"><small>익명 · ${ago(c.created_at)}</small><p>${esc(c.content)}</p></div>`).join('')||'<p class="feed-message">첫 댓글을 남겨보세요.</p>'}</div><form class="comment-form" id="comment-form"><input maxlength="300" required placeholder="익명으로 댓글 쓰기"><button>등록</button></form></div>`; const d=$('#detail-dialog');d.showModal();$('#close-detail').onclick=()=>d.close();$('#comment-form').onsubmit=async ev=>{ev.preventDefault();const i=ev.currentTarget.querySelector('input');try{const c=await api('/api/posts/'+p.id+'/comments',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({content:i.value})});$('#comments').insertAdjacentHTML('beforeend',`<div class="comment"><small>익명 · ${ago(c.created_at)}</small><p>${esc(c.content)}</p></div>`);i.value='';toast('댓글을 남겼어요.')}catch(x){toast(x.message)}}}catch(x){toast(x.message)}});loadFeed();
